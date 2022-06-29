@@ -1,0 +1,20 @@
+{
+    "name": "isferomar/restaurant",
+    "description": "sistema para un restaurant",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/helpers.php"
+        ]
+    },
+    "authors": [
+        
+        {
+            "name": "Omar Isnado",
+            "email": "isnado.omar@correo.bo"
+        }
+    ],
+    "require": {}
+}
