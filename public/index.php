@@ -1,5 +1,7 @@
 <?php
-    echo "<h1>Hola mundo!</h1>";
 
-    
-?>
+    require  __DIR__ . "./../vendor/autoload.php";
+
+    $request = new \App\Http\Request();
+
+    $request->send();
