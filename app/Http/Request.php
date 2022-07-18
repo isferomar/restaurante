@@ -10,17 +10,17 @@ class Request
 
     public  function getController()
     {
-        
         return $this->controller;
     }
+
     public  function setController($controller)
     {
-        if (empty($controller)){
-            $this->controller="\App\Http\Controlles\HomeController";
-        }else{
-            $controller=strtolower($controller);
-            $controller=ucfirst($controller);
-            $this->controller="\App\Http\Controlles\\". $controller . "Controller";
+        if (empty($controller)) {
+            $this->controller = "\App\Http\Controlles\HomeController";
+        } else {
+            $controller = strtolower($controller);
+            $controller = ucfirst($controller);
+            $this->controller = "\App\Http\Controller\\" . $controller . "Controller";
         }
     }
     public  function getMethod()
@@ -28,43 +28,60 @@ class Request
         return $this->method;
     }
     public  function setMethod($method)
-    {
-        $this->method=$method;
+    {   
+        if ($method == "GET") {
+            if ($this->getId()==0){
+                $this->method = "index";
+            }else{
+                $this->method = "show";
+            }
+        } else if ($method == "POST") {
+            $this->method = "store";
+            $this->id =json_encode(file_get_contents("PHP://input"));
+        } else if ($method == "PUT" || $method == "PATCH") {
+            $this->method = "update";
+            $this->id =json_encode(file_get_contents("PHP://input"));
+        } else if ($method == "DELETE") {
+            $this->method = "destroy";
+        }
     }
-    public  function getId()
+
+    public function getId()
     {
         return $this->id;
     }
     public  function setId($id)
     {
-        if (empty($id)){
-            $this->id=0;
-        }else{
-            $this->id=$id;
+        if (empty($id)) {
+            $this->id = 0;
+        } else {
+            $this->id = $id;
         }
     }
 
-    public function __construct() 
+    public function __construct()
     {
-        $uri=$_SERVER['REQUEST_URI'];
-        $segment=explode("/",$uri);
+        $uri = $_SERVER['REQUEST_URI'];
+        $segment = explode("/", $uri);
 
-        $controller=$segment[1];
+        $controller = $segment[1];
         $this->setController($controller);
 
-        // Todo: setMethod()
-
-        $id=$segment[2];
+        $id = $segment[2];
         $this->setId($id);
 
+        $method = $_SERVER['REQUEST_METHOD'];
+        $this->setMethod($method);
     }
-    public  function send()
+
+    public function send()
     {
-        echo "<p>Controlador:</p>";
-        var_dump($this->getController());
+        $controller = $this->getController();
+        $method = $this->getMethod();
+        $id = $this->getId();
 
-        echo "<p>Id:</p>";
-        var_dump($this->getId());
+        $response = call_user_func([new $controller, $method], $id);
+
+        $response->send();
     }
-
 }
