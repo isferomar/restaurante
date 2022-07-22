@@ -16,11 +16,11 @@ class Request
     public  function setController($controller)
     {
         if (empty($controller)) {
-            $this->controller = "\App\Http\Controlles\HomeController";
+            $this->controller = "\App\Http\Controllers\HomeController";
         } else {
             $controller = strtolower($controller);
             $controller = ucfirst($controller);
-            $this->controller = "\App\Http\Controller\\" . $controller . "Controller";
+            $this->controller = "\App\Http\Controllers\\" . $controller . "Controller";
         }
     }
     public  function getMethod()
@@ -28,24 +28,23 @@ class Request
         return $this->method;
     }
     public  function setMethod($method)
-    {   
+    {
         if ($method == "GET") {
-            if ($this->getId()==0){
+            if ($this->getId() == 0) {
                 $this->method = "index";
-            }else{
+            } else {
                 $this->method = "show";
             }
         } else if ($method == "POST") {
             $this->method = "store";
-            $this->id =json_encode(file_get_contents("PHP://input"));
+            $this->id = json_encode(file_get_contents("PHP://input"));
         } else if ($method == "PUT" || $method == "PATCH") {
             $this->method = "update";
-            $this->id =json_encode(file_get_contents("PHP://input"));
+            $this->id = json_encode(file_get_contents("PHP://input"));
         } else if ($method == "DELETE") {
             $this->method = "destroy";
         }
     }
-
     public function getId()
     {
         return $this->id;

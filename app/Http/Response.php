@@ -14,8 +14,9 @@ class Response
     }
     public function send()
     {
-        header('Access-Control-Allow-Origin: *');
-        header('Content-Type: application/json',true,$this->status);
+        header('Access-Control-Allow-Origin: *', true);
+        header('Access-Control-Allow-Methods: *', true);
+        header('Content-Type: application/json', true, $this->status);
         echo json_encode($this->data);
     }
 }
