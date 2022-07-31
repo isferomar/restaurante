@@ -10,7 +10,7 @@ class ComidaRepository
     public static function GetAll()
     {
         $conection = ConectionPDO::CreateConection();
-        $statement = $conection->prepare("select * from Comidas");
+        $statement = $conection->prepare("select * from comidas");
         $statement->execute();
         $rows = $statement->fetchAll();
         $comidas = array();
@@ -24,7 +24,7 @@ class ComidaRepository
     public static function Find($id)
     {
         $conection = ConectionPDO::CreateConection();
-        $statement = $conection->prepare("select * from Comidas where id= ?");
+        $statement = $conection->prepare("select * from comidas where id= ?");
         $statement->execute([$id]);
         $row = $statement->fetchAll();
         if (empty($row)) {
@@ -37,13 +37,13 @@ class ComidaRepository
     public static function Delete($id)
     {
         $conection = ConectionPDO::CreateConection();
-        $statement = $conection->prepare("delete from Comidas where id= ?");
+        $statement = $conection->prepare("delete from comidas where id= ?");
         $statement->execute([$id]);
     }
     public static function Save($comida)
     {
         $conection = ConectionPDO::CreateConection();
-        $statement = $conection->prepare("insert into  Comidas (nombre,precio,descripcion) values (?,?,?)");
+        $statement = $conection->prepare("insert into  comidas (nombre,precio,descripcion) values (?,?,?)");
         $statement->execute([$comida->nombre, $comida->precio, $comida->descripcion]);
         return $conection->lastInsertId();
     }

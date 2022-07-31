@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class comida
+class Comida
 {
     public $id;
     public $nombre;

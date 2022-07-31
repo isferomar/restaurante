@@ -46,7 +46,7 @@ class ComidaController
         if (!empty($errorList)) {
             return json($errorList, 400);
         }
-        if (!empty(ComidaRepository::Find($comida->id))) {
+        if (empty(ComidaRepository::Find($comida->id))) {
             return json([
                 "state" => "error",
                 "type" => "internal error",
@@ -106,7 +106,7 @@ class ComidaController
                 array_push($errorList, "La longitud del valor nombre no se encuentra dentro de los parámetros esperados");
             }
         }
-        if (empty($errorList)) {
+        if (!empty($errorList)) {
             return json([
                 "state" => "error",
                 "type" => "error of type",
